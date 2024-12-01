@@ -17,8 +17,8 @@ class Medicine(Base):
     cart_id: Mapped[int] = mapped_column(ForeignKey('cart.id'), nullable=True)
     cart: Mapped['Cart'] = relationship(back_populates='medicines', lazy='subquery')
 
-    category_id: Mapped[int] = mapped_column(ForeignKey('medicine_category.id'))
+    category_id: Mapped[int] = mapped_column(ForeignKey('medicine_category.id'), nullable=True)
     category: Mapped['MedicineCategory'] = relationship(back_populates='medicines', lazy='subquery')
 
-    manufacturer_id: Mapped[int] = mapped_column(ForeignKey('manufacturer.id'))
+    manufacturer_id: Mapped[int] = mapped_column(ForeignKey('manufacturer.id'), nullable=True)
     manufacturer: Mapped['Manufacturer'] = relationship(back_populates='medicines', lazy='subquery')

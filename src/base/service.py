@@ -1,15 +1,9 @@
-import abc
-
-from src.base.dao import BaseDAO
+from src.base.dao import DAO
 
 
-class BaseService(abc.ABC):
-    def __init__(self, dao: BaseDAO):
+class BaseService:
+    def __init__(self, dao: DAO):
         self.dao = dao
-
-    @abc.abstractmethod
-    def get_details(self):
-        raise NotImplementedError()
 
     def get_all(self):
         return self.dao.get_all()

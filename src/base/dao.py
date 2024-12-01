@@ -1,18 +1,40 @@
-import abc
+from sqlalchemy import select, update
+from sqlalchemy.orm import Session
 
 
-class BaseDAO(abc.ABC):
-    def __init__(self, model):
+class DAO:
+    def __init__(self, model, engine):
+        self.engine = engine
         self.model = model
 
-    @abc.abstractmethod
     def create(self, data: dict):
-        raise NotImplementedError()
+        session = Session(self.engine)
+        model = self.model(**data)
+        session.add(model)
+        session.commit()
+        session.close()
 
-    @abc.abstractmethod
+    def update(self, object_id: int, **kwargs):
+        session = Session(self.engine)
+        session.scalars(update(self.model).where(self.model.id == object_id).values(**kwargs))
+        session.commit()
+        session.close()
+
+    def get(self, **kwargs):
+        session = Session(self.engine)
+        obj = session.scalars(select(self.model).filter_by(**kwargs)).first()
+        session.close()
+        return obj
+
     def get_all(self):
-        raise NotImplementedError()
+        session = Session(self.engine)
+        objects = session.scalars(select(self.model)).all()
+        session.close()
+        return objects
 
-    @abc.abstractmethod
     def delete(self, object_id: int):
-        raise NotImplementedError()
+        session = Session(self.engine)
+        object_to_delete = session.scalars(select(self.model).where(self.model.id == object_id)).first()
+        session.delete(object_to_delete)
+        session.commit()
+        session.close()
