@@ -10,7 +10,7 @@ from src.cart.models import Cart
 class Medicine(Base):
     __tablename__ = 'medicine'
 
-    name: Mapped[str]
+    name: Mapped[str] = mapped_column(unique=True)
     price: Mapped[float]
     description: Mapped[str]
     stock_quantity: Mapped[int]
@@ -23,3 +23,6 @@ class Medicine(Base):
 
     manufacturer_id: Mapped[int] = mapped_column(ForeignKey('manufacturer.id'), nullable=True)
     manufacturer: Mapped['Manufacturer'] = relationship(back_populates='medicines', lazy='subquery')
+
+    def __str__(self):
+        return self.name

@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import Mapped, mapped_column
 
 from src.base.models import Base
 
@@ -8,5 +8,8 @@ class Buyer(Base):
 
     first_name: Mapped[str]
     last_name: Mapped[str]
-    email: Mapped[str]
+    email: Mapped[str] = mapped_column(unique=True)
     delivery_address: Mapped[str]
+
+    def __str__(self):
+        return self.first_name

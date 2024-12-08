@@ -9,3 +9,6 @@ class MedicineCategory(Base):
     name: Mapped[str]
     description: Mapped[str]
     medicines: Mapped[list['Medicine']] = relationship(back_populates='category')
+
+    def __str__(self):
+        return self.name
