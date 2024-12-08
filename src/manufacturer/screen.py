@@ -1,4 +1,6 @@
 from PyQt5.QtWidgets import QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QVBoxLayout, QLabel
+
+from src.base.dao import DAO
 from src.base.screen import BaseScreen
 from src.manufacturer.models import Manufacturer
 
@@ -6,6 +8,11 @@ class ManufacturerScreen(BaseScreen):
     def __init__(self, engine):
         super().__init__()
         self.engine = engine
+
+        self.manufacturer_dao = DAO(
+            engine=engine,
+            model=Manufacturer,
+        )
 
         # Форма добавления производителя
         self.name_input = QLineEdit()
@@ -28,20 +35,21 @@ class ManufacturerScreen(BaseScreen):
         self.layout.addLayout(form_layout)
         self.layout.addWidget(self.manufacturer_table)
 
+        self.on_tab_selected()
+
+    def on_tab_selected(self):
         self.load_data()
 
     def load_data(self):
-        """Загружает данные в таблицу."""
-        # manufacturers = self.db_session.query(Manufacturer).all()
-        # self.manufacturer_table.setRowCount(len(manufacturers))
-        # for row_idx, manufacturer in enumerate(manufacturers):
-        #     self.manufacturer_table.setItem(row_idx, 0, QTableWidgetItem(str(manufacturer.id)))
-        #     self.manufacturer_table.setItem(row_idx, 1, QTableWidgetItem(manufacturer.name))
-        #     self.manufacturer_table.setItem(row_idx, 2, QTableWidgetItem(manufacturer.country_foreign))
-        pass
+        manufacturers = self.manufacturer_dao.get_all()
+        self.manufacturer_table.setRowCount(len(manufacturers))
+        for row_idx, manufacturer in enumerate(manufacturers):
+            self.manufacturer_table.setItem(row_idx, 0, QTableWidgetItem(str(manufacturer.id)))
+            self.manufacturer_table.setItem(row_idx, 1, QTableWidgetItem(manufacturer.name))
+            self.manufacturer_table.setItem(row_idx, 2, QTableWidgetItem(manufacturer.country_foreign))
+        return
 
     def create_manufacturer(self):
-        """Создает нового производителя."""
         fields = {
             "Название": self.name_input,
             "Страна": self.country_input,
@@ -54,8 +62,7 @@ class ManufacturerScreen(BaseScreen):
                 name=self.name_input.text(),
                 country_foreign=self.country_input.text()
             )
-            self.db_session.add(manufacturer)
-            self.db_session.commit()
+            self.manufacturer_dao.create(manufacturer)
             self.load_data()
         except Exception as e:
             self.show_error(str(e))

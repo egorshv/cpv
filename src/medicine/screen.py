@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QLineEdit, QComboBox, QPushButton, QTableWidget, QTa
 
 from src.base.dao import DAO
 from src.base.screen import BaseScreen
+from src.cart.models import Cart
 from src.category.models import MedicineCategory
 from src.manufacturer.models import Manufacturer
 from src.medicine.models import Medicine
@@ -23,6 +24,10 @@ class MedicineScreen(BaseScreen):
         self.category_dao = DAO(
             engine=self.engine,
             model=MedicineCategory,
+        )
+        self.cart_dao = DAO(
+            engine=self.engine,
+            model=Cart,
         )
 
         # Создание формы для добавления лекарства
@@ -75,6 +80,12 @@ class MedicineScreen(BaseScreen):
         self.layout.addLayout(update_layout)
         self.layout.addWidget(self.medicine_table)
 
+        self.on_tab_selected()
+
+    def on_tab_selected(self):
+        self.load_medicines(self.medicine_to_update)
+        self.load_categories(self.category_combo)
+        self.load_manufacturers(self.manufacturer_combo)
         self.load_data()
 
     def load_data(self):
@@ -90,14 +101,17 @@ class MedicineScreen(BaseScreen):
             self.medicine_table.setItem(row_idx, 6, QTableWidgetItem(medicine.manufacturer.name if medicine.manufacturer else ""))
 
     def load_categories(self, combo):
+        combo.clear()
         categories = self.category_dao.get_all()
         combo.addItems([str(category) for category in categories])
 
     def load_manufacturers(self, combo):
+        combo.clear()
         manufacturers = self.manufacturer_dao.get_all()
         combo.addItems([str(manufacturer) for manufacturer in manufacturers])
 
     def load_medicines(self, combo):
+        combo.clear()
         medicines = self.medicine_dao.get_all()
         combo.addItems([str(medicine) for medicine in medicines])
 
@@ -118,7 +132,6 @@ class MedicineScreen(BaseScreen):
         service.update_stock(new_stock)
 
     def create_medicine(self):
-        """Создает новое лекарство."""
         fields = {
             "Имя": self.name_input,
             "Цена": self.price_input,
@@ -134,6 +147,7 @@ class MedicineScreen(BaseScreen):
 
             manufacturer_name = self.manufacturer_combo.currentData()
             manufacturer = self.manufacturer_dao.get(name=manufacturer_name)
+            cart = self.get_cart()
 
             medicine = Medicine(
                 name=self.name_input.text(),
@@ -141,9 +155,10 @@ class MedicineScreen(BaseScreen):
                 description=self.description_input.text(),
                 stock_quantity=int(self.stock_input.text()),
                 category=category,
-                manufacturer_id=manufacturer,
+                manufacturer=manufacturer,
+                cart=cart,
             )
-            self.dao.create(medicine)
+            self.medicine_dao.create(medicine)
             self.load_data()
         except Exception as e:
             self.show_error(str(e))

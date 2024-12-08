@@ -1,11 +1,23 @@
 from PyQt5.QtWidgets import QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QVBoxLayout, QLabel
+
+from src.base.dao import DAO
 from src.base.screen import BaseScreen
 from src.category.models import MedicineCategory
+from src.medicine.models import Medicine
+
 
 class MedicineCategoryScreen(BaseScreen):
     def __init__(self, engine):
         super().__init__()
         self.engine = engine
+        self.category_dao = DAO(
+            engine=engine,
+            model=MedicineCategory,
+        )
+        self.medicine_dao = DAO(
+            engine=engine,
+            model=Medicine,
+        )
 
         # Форма добавления категории
         self.name_input = QLineEdit()
@@ -28,20 +40,20 @@ class MedicineCategoryScreen(BaseScreen):
         self.layout.addLayout(form_layout)
         self.layout.addWidget(self.category_table)
 
+        self.on_tab_selected()
+
+    def on_tab_selected(self):
         self.load_data()
 
     def load_data(self):
-        """Загружает данные в таблицу."""
-        # categories = self.db_session.query(MedicineCategory).all()
-        # self.category_table.setRowCount(len(categories))
-        # for row_idx, category in enumerate(categories):
-        #     self.category_table.setItem(row_idx, 0, QTableWidgetItem(str(category.id)))
-        #     self.category_table.setItem(row_idx, 1, QTableWidgetItem(category.name))
-        #     self.category_table.setItem(row_idx, 2, QTableWidgetItem(category.description))
-        pass
+        categories = self.category_dao.get_all()
+        self.category_table.setRowCount(len(categories))
+        for row_idx, category in enumerate(categories):
+            self.category_table.setItem(row_idx, 0, QTableWidgetItem(str(category.id)))
+            self.category_table.setItem(row_idx, 1, QTableWidgetItem(category.name))
+            self.category_table.setItem(row_idx, 2, QTableWidgetItem(category.description))
 
     def create_category(self):
-        """Создает новую категорию."""
         fields = {
             "Название": self.name_input,
             "Описание": self.description_input,
@@ -54,8 +66,7 @@ class MedicineCategoryScreen(BaseScreen):
                 name=self.name_input.text(),
                 description=self.description_input.text()
             )
-            self.db_session.add(category)
-            self.db_session.commit()
+            self.category_dao.create(category)
             self.load_data()
         except Exception as e:
             self.show_error(str(e))

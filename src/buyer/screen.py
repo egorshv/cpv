@@ -1,4 +1,6 @@
 from PyQt5.QtWidgets import QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QVBoxLayout, QLabel
+
+from src.base.dao import DAO
 from src.base.screen import BaseScreen
 from src.buyer.models import Buyer
 
@@ -6,6 +8,11 @@ class BuyerScreen(BaseScreen):
     def __init__(self, engine):
         super().__init__()
         self.engine = engine
+
+        self.buyer_dao = DAO(
+            engine=engine,
+            model=Buyer,
+        )
 
         # Форма добавления покупателя
         self.first_name_input = QLineEdit()
@@ -34,19 +41,21 @@ class BuyerScreen(BaseScreen):
         self.layout.addLayout(form_layout)
         self.layout.addWidget(self.buyer_table)
 
+        self.on_tab_selected()
+
+    def on_tab_selected(self):
         self.load_data()
 
     def load_data(self):
-        """Загружает данные в таблицу."""
-        # buyers = self.db_session.query(Buyer).all()
-        # self.buyer_table.setRowCount(len(buyers))
-        # for row_idx, buyer in enumerate(buyers):
-        #     self.buyer_table.setItem(row_idx, 0, QTableWidgetItem(str(buyer.id)))
-        #     self.buyer_table.setItem(row_idx, 1, QTableWidgetItem(buyer.first_name))
-        #     self.buyer_table.setItem(row_idx, 2, QTableWidgetItem(buyer.last_name))
-        #     self.buyer_table.setItem(row_idx, 3, QTableWidgetItem(buyer.email))
-        #     self.buyer_table.setItem(row_idx, 4, QTableWidgetItem(buyer.delivery_address))
-        pass
+        buyers = self.buyer_dao.get_all()
+        self.buyer_table.setRowCount(len(buyers))
+        for row_idx, buyer in enumerate(buyers):
+            self.buyer_table.setItem(row_idx, 0, QTableWidgetItem(str(buyer.id)))
+            self.buyer_table.setItem(row_idx, 1, QTableWidgetItem(buyer.first_name))
+            self.buyer_table.setItem(row_idx, 2, QTableWidgetItem(buyer.last_name))
+            self.buyer_table.setItem(row_idx, 3, QTableWidgetItem(buyer.email))
+            self.buyer_table.setItem(row_idx, 4, QTableWidgetItem(buyer.delivery_address))
+        return
 
     def create_buyer(self):
         """Создает нового покупателя."""
@@ -66,8 +75,7 @@ class BuyerScreen(BaseScreen):
                 email=self.email_input.text(),
                 delivery_address=self.address_input.text()
             )
-            self.db_session.add(buyer)
-            self.db_session.commit()
+            self.buyer_dao.create(buyer)
             self.load_data()
         except Exception as e:
             self.show_error(str(e))

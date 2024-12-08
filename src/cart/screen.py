@@ -1,11 +1,19 @@
 from PyQt5.QtWidgets import QComboBox, QPushButton, QLineEdit, QTableWidget, QTableWidgetItem, QVBoxLayout, QLabel
+
+from src.base.dao import DAO
 from src.base.screen import BaseScreen
+from src.cart.models import Cart
 
 
 class CartScreen(BaseScreen):
     def __init__(self, engine):
         super().__init__()
         self.engine = engine
+
+        self.cart_dao = DAO(
+            engine=engine,
+            model=Cart,
+        )
 
         # Форма добавления лекарства
         self.medicine_combo = QComboBox()
@@ -48,28 +56,27 @@ class CartScreen(BaseScreen):
         self.layout.addLayout(calc_layout)
         self.layout.addWidget(self.cart_table)
 
+        self.on_tab_selected()
+
+    def on_tab_selected(self):
         self.load_cart()
 
     def load_cart(self):
-        """Загружает данные корзины."""
-        # cart = self.db_session.query(Cart).first()
-        # self.cart_table.setRowCount(len(cart.medicines))
-        # for row_idx, medicine in enumerate(cart.medicines):
-        #     self.cart_table.setItem(row_idx, 0, QTableWidgetItem(str(medicine.id)))
-        #     self.cart_table.setItem(row_idx, 1, QTableWidgetItem(medicine.name))
-        #     self.cart_table.setItem(row_idx, 2, QTableWidgetItem(str(medicine.price)))
-        #     self.cart_table.setItem(row_idx, 3, QTableWidgetItem(medicine.category.name if medicine.category else ""))
-        #     self.cart_table.setItem(row_idx, 4, QTableWidgetItem(medicine.manufacturer.name if medicine.manufacturer else ""))
-        pass
+        cart = self.get_cart()
+        self.cart_table.setRowCount(len(cart.medicines))
+        for row_idx, medicine in enumerate(cart.medicines):
+            self.cart_table.setItem(row_idx, 0, QTableWidgetItem(str(medicine.id)))
+            self.cart_table.setItem(row_idx, 1, QTableWidgetItem(medicine.name))
+            self.cart_table.setItem(row_idx, 2, QTableWidgetItem(str(medicine.price)))
+            self.cart_table.setItem(row_idx, 3, QTableWidgetItem(medicine.category.name if medicine.category else ""))
+            self.cart_table.setItem(row_idx, 4, QTableWidgetItem(medicine.manufacturer.name if medicine.manufacturer else ""))
+        return
 
     def add_to_cart(self):
-        """Добавляет лекарство в корзину."""
-        pass  # Логика добавления
+        pass
 
     def remove_from_cart(self):
-        """Удаляет лекарство из корзины."""
-        pass  # Логика удаления
+        pass
 
     def calculate_total(self):
-        """Вычисляет общую стоимость корзины."""
-        pass  # Логика расчета
+        pass
