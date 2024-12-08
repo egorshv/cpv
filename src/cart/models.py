@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Mapped, relationship
 
 from src.base.models import Base
-from src.medicine.models import Medicine
 
 
 class Cart(Base):

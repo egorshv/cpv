@@ -4,6 +4,7 @@ from sqlalchemy import ForeignKey
 from src.base.models import Base
 from src.category.models import MedicineCategory
 from src.manufacturer.models import Manufacturer
+from src.cart.models import Cart
 
 
 class Medicine(Base):

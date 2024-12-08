@@ -7,10 +7,9 @@ class DAO:
         self.engine = engine
         self.model = model
 
-    def create(self, data: dict):
+    def create(self, object_to_create):
         session = Session(self.engine)
-        model = self.model(**data)
-        session.add(model)
+        session.add(object_to_create)
         session.commit()
         session.close()
 
