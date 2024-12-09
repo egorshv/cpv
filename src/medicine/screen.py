@@ -152,12 +152,11 @@ class MedicineScreen(BaseScreen):
             return
 
         try:
-            category_name = self.category_combo.currentData()
+            category_name = self.category_combo.currentText()
             category = self.category_dao.get(name=category_name)
 
-            manufacturer_name = self.manufacturer_combo.currentData()
+            manufacturer_name = self.manufacturer_combo.currentText()
             manufacturer = self.manufacturer_dao.get(name=manufacturer_name)
-            cart = self.get_cart()
 
             medicine = Medicine(
                 name=self.name_input.text(),
@@ -166,7 +165,6 @@ class MedicineScreen(BaseScreen):
                 stock_quantity=int(self.stock_input.text()),
                 category=category,
                 manufacturer=manufacturer,
-                cart=cart,
             )
             self.medicine_dao.create(medicine)
             self.load_data()

@@ -1,22 +1,25 @@
 from src.base.dao import DAO
 from src.base.service import BaseService
 from src.cart.models import Cart
+from src.medicine.models import Medicine
 
 
 class CartService(BaseService):
     def __init__(self, cart: Cart, dao: DAO):
         self.cart = cart
+        self.medicine_dao = DAO(
+            engine=dao.engine,
+            model=Medicine,
+        )
         super().__init__(dao)
 
-    def add_medicine(self, medicine, quantity):
-        if new_quantity := medicine.stock_quantity - quantity >= 0:
-            return self.dao.update(medicine.id, cart=self.cart, stock_quantity=new_quantity)
+    def add_medicine(self, medicine, quantity = 1):
+        if (new_quantity := medicine.stock_quantity - quantity) >= 0:
+            return self.medicine_dao.update(medicine.id, cart_id=self.cart.id, stock_quantity=new_quantity)
         raise ValueError()
 
     def remove_medicine(self, medicine):
-        if medicine.cart == self.cart:
-            return self.dao.update(medicine.id, cart=None, stock_quantity=medicine.stock_quantity + 1)
-        raise ValueError()
+        return self.medicine_dao.update(medicine.id, cart_id=None, stock_quantity=medicine.stock_quantity + 1)
 
     def get_total_price(self):
         total_price = 0
