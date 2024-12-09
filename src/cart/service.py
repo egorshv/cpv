@@ -23,7 +23,8 @@ class CartService(BaseService):
 
     def get_total_price(self):
         total_price = 0
-        for medicine in self.cart.medicines:
+        medicines = self.medicine_dao.list(cart_id=self.cart.id)
+        for medicine in medicines:
             total_price += medicine.price
         return total_price
 

@@ -100,6 +100,7 @@ class CartScreen(BaseScreen):
         combo.addItems([str(medicine) for medicine in medicines])
 
     def load_cart(self):
+        self.cart = self.get_cart()
         medicines_from_db = self.medicine_dao.get(cart_id=self.cart.id)
         medicines = self.cart.medicines or medicines_from_db
         self.cart_table.setRowCount(len(self.cart.medicines))

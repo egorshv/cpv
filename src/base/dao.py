@@ -25,6 +25,12 @@ class DAO:
         session.close()
         return obj
 
+    def list(self, **kwargs):
+        session = Session(self.engine)
+        obj = session.scalars(select(self.model).filter_by(**kwargs)).all()
+        session.close()
+        return obj
+
     def get_all(self):
         session = Session(self.engine)
         objects = session.scalars(select(self.model)).all()
