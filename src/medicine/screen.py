@@ -116,20 +116,30 @@ class MedicineScreen(BaseScreen):
         combo.addItems([str(medicine) for medicine in medicines])
 
     def update_price(self):
-        medicine_name = self.medicine_to_update.currentData()
-        new_price = int(self.price_input.text())
+        medicine_name = self.medicine_to_update.currentText()
+        if self.price_input.text().isdigit():
+            new_price = int(self.price_input.text())
+        else:
+            self.show_error('Price must be number')
+            return
 
         medicine = self.medicine_dao.get(name=medicine_name)
         service = MedicineService(medicine, self.medicine_dao)
         service.update_price(new_price)
+        self.load_data()
 
     def update_stock(self):
-        medicine_name = self.medicine_to_update.currentData()
-        new_stock = int(self.stock_input.text())
+        medicine_name = self.medicine_to_update.currentText()
+        if self.stock_input.text().isdigit():
+            new_stock = int(self.stock_input.text())
+        else:
+            self.show_error('Stock must be number')
+            return
 
         medicine = self.medicine_dao.get(name=medicine_name)
         service = MedicineService(medicine, self.medicine_dao)
         service.update_stock(new_stock)
+        self.load_data()
 
     def create_medicine(self):
         fields = {

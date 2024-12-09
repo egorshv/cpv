@@ -15,7 +15,7 @@ class DAO:
 
     def update(self, object_id: int, **kwargs):
         session = Session(self.engine)
-        session.scalars(update(self.model).where(self.model.id == object_id).values(**kwargs))
+        session.execute(update(self.model).where(self.model.id == object_id).values(**kwargs))
         session.commit()
         session.close()
 
