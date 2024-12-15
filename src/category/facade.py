@@ -1,8 +1,8 @@
 from src.base.dao import DAO
-from src.base.service import BaseService
+from src.base.facade import BaseFacade
 
 
-class MedicineCategoryService(BaseService):
+class MedicineCategoryFacade(BaseFacade):
     def __init__(self, dao: DAO, category):
         self.category = category
         super().__init__(dao)

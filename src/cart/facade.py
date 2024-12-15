@@ -1,10 +1,10 @@
 from src.base.dao import DAO
-from src.base.service import BaseService
+from src.base.facade import BaseFacade
 from src.cart.models import Cart
 from src.medicine.models import Medicine
 
 
-class CartService(BaseService):
+class CartFacade(BaseFacade):
     def __init__(self, cart: Cart, dao: DAO):
         self.cart = cart
         self.medicine_dao = DAO(

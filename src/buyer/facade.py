@@ -1,8 +1,8 @@
 from src.base.dao import DAO
-from src.base.service import BaseService
+from src.base.facade import BaseFacade
 
 
-class BuyerService(BaseService):
+class BuyerFacade(BaseFacade):
     def __init__(self, buyer, dao: DAO):
         self.buyer = buyer
         super().__init__(dao)

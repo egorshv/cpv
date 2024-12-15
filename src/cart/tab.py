@@ -1,13 +1,13 @@
 from PyQt5.QtWidgets import QComboBox, QPushButton, QLineEdit, QTableWidget, QTableWidgetItem, QVBoxLayout, QLabel
 
 from src.base.dao import DAO
-from src.base.screen import BaseScreen
+from src.base.tab import BaseTab
 from src.cart.models import Cart
-from src.cart.service import CartService
+from src.cart.facade import CartFacade
 from src.medicine.models import Medicine
 
 
-class CartScreen(BaseScreen):
+class CartTab(BaseTab):
     def __init__(self, engine):
         super().__init__()
         self.engine = engine
@@ -22,7 +22,7 @@ class CartScreen(BaseScreen):
         )
 
         self.cart = self.get_cart()
-        self.cart_service = CartService(self.cart, self.cart_dao)
+        self.cart_service = CartFacade(self.cart, self.cart_dao)
 
         # Форма добавления лекарства
         self.medicine_combo = QComboBox()

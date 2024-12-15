@@ -1,15 +1,15 @@
 from PyQt5.QtWidgets import QLineEdit, QComboBox, QPushButton, QTableWidget, QTableWidgetItem, QVBoxLayout, QHBoxLayout, QLabel
 
 from src.base.dao import DAO
-from src.base.screen import BaseScreen
+from src.base.tab import BaseTab
 from src.cart.models import Cart
 from src.category.models import MedicineCategory
 from src.manufacturer.models import Manufacturer
 from src.medicine.models import Medicine
-from src.medicine.service import MedicineService
+from src.medicine.facade import MedicineFacade
 
 
-class MedicineScreen(BaseScreen):
+class MedicineTab(BaseTab):
     def __init__(self, engine):
         super().__init__()
         self.engine = engine
@@ -124,7 +124,7 @@ class MedicineScreen(BaseScreen):
             return
 
         medicine = self.medicine_dao.get(name=medicine_name)
-        service = MedicineService(medicine, self.medicine_dao)
+        service = MedicineFacade(medicine, self.medicine_dao)
         service.update_price(new_price)
         self.load_data()
 
@@ -137,7 +137,7 @@ class MedicineScreen(BaseScreen):
             return
 
         medicine = self.medicine_dao.get(name=medicine_name)
-        service = MedicineService(medicine, self.medicine_dao)
+        service = MedicineFacade(medicine, self.medicine_dao)
         service.update_stock(new_stock)
         self.load_data()
 

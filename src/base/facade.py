@@ -1,7 +1,7 @@
 from src.base.dao import DAO
 
 
-class BaseService:
+class BaseFacade:
     def __init__(self, dao: DAO):
         self.dao = dao
 

@@ -1,10 +1,10 @@
 from PyQt5.QtWidgets import QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QVBoxLayout, QLabel
 
 from src.base.dao import DAO
-from src.base.screen import BaseScreen
+from src.base.tab import BaseTab
 from src.manufacturer.models import Manufacturer
 
-class ManufacturerScreen(BaseScreen):
+class ManufacturerTab(BaseTab):
     def __init__(self, engine):
         super().__init__()
         self.engine = engine

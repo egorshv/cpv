@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QMessageBox
 from src.cart.models import Cart
 
 
-class BaseScreen(QWidget):
+class BaseTab(QWidget):
     def __init__(self):
         super().__init__()
         self.layout = QVBoxLayout(self)

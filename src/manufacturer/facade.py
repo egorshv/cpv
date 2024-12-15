@@ -1,7 +1,7 @@
-from src.base.service import BaseService
+from src.base.facade import BaseFacade
 
 
-class ManufacturerService(BaseService):
+class ManufacturerFacade(BaseFacade):
     def __init__(self, manufacturer, dao):
         self.manufacturer = manufacturer
         super().__init__(dao)

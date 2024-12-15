@@ -1,7 +1,7 @@
-from src.base.service import BaseService
+from src.base.facade import BaseFacade
 
 
-class MedicineService(BaseService):
+class MedicineFacade(BaseFacade):
     def __init__(self, medicine, dao):
         self.medicine = medicine
         super().__init__(dao)
