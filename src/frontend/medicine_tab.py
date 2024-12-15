@@ -1,12 +1,12 @@
 from PyQt5.QtWidgets import QLineEdit, QComboBox, QPushButton, QTableWidget, QTableWidgetItem, QVBoxLayout, QHBoxLayout, QLabel
 
-from src.base.dao import DAO
-from src.base.tab import BaseTab
-from src.cart.models import Cart
-from src.category.models import MedicineCategory
-from src.manufacturer.models import Manufacturer
-from src.medicine.models import Medicine
-from src.medicine.facade import MedicineFacade
+from src.backend.dao import DAO
+from src.frontend.base_tab import BaseTab
+from src.backend.models.cart import Cart
+from src.backend.models.category import MedicineCategory
+from src.backend.models.manufacturer import Manufacturer
+from src.backend.models.medicine import Medicine
+from src.backend.facades.medicine import MedicineFacade
 
 
 class MedicineTab(BaseTab):

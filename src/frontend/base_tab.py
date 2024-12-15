@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QMessageBox
 
-from src.cart.models import Cart
+from src.backend.models.cart import Cart
 
 
 class BaseTab(QWidget):

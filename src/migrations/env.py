@@ -5,13 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 from src.settings import DSN
-from src.base.models import Base
-from src.medicine.models import Medicine
-from src.buyer.models import Buyer
-from src.manufacturer.models import Manufacturer
-from src.cart.models import Cart
-from src.category.models import MedicineCategory
-
+from src.backend.models.base import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

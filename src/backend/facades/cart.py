@@ -1,7 +1,7 @@
-from src.base.dao import DAO
-from src.base.facade import BaseFacade
-from src.cart.models import Cart
-from src.medicine.models import Medicine
+from src.backend.dao import DAO
+from src.backend.facades.base import BaseFacade
+from src.backend.models.cart import Cart
+from src.backend.models.medicine import Medicine
 
 
 class CartFacade(BaseFacade):
@@ -15,11 +15,11 @@ class CartFacade(BaseFacade):
 
     def add_medicine(self, medicine, quantity = 1):
         if (new_quantity := medicine.stock_quantity - quantity) >= 0:
-            return self.medicine_dao.update(medicine.id, cart_id=self.cart.id, stock_quantity=new_quantity)
+            return self.medicine_dao.update(medicine.id, cart_id=self.cart.id)
         raise ValueError()
 
     def remove_medicine(self, medicine):
-        return self.medicine_dao.update(medicine.id, cart_id=None, stock_quantity=medicine.stock_quantity + 1)
+        return self.medicine_dao.update(medicine.id, cart_id=None)
 
     def get_total_price(self):
         total_price = 0

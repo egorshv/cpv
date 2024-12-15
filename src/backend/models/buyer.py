@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.base.models import Base
+from src.backend.models.base import Base
 
 
 class Buyer(Base):

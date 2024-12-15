@@ -1,10 +1,10 @@
 from PyQt5.QtWidgets import QComboBox, QPushButton, QLineEdit, QTableWidget, QTableWidgetItem, QVBoxLayout, QLabel
 
-from src.base.dao import DAO
-from src.base.tab import BaseTab
-from src.cart.models import Cart
-from src.cart.facade import CartFacade
-from src.medicine.models import Medicine
+from src.backend.dao import DAO
+from src.frontend.base_tab import BaseTab
+from src.backend.models.cart import Cart
+from src.backend.facades.cart import CartFacade
+from src.backend.models.medicine import Medicine
 
 
 class CartTab(BaseTab):
@@ -116,10 +116,13 @@ class CartTab(BaseTab):
         medicine_name = self.medicine_combo.currentText()
         medicine = self.medicine_dao.get(name=medicine_name)
         # quantity = int(self.add_quantity_combo.currentText())
-        self.cart_service.add_medicine(medicine)
-        if medicine not in self.cart.medicines:
-            self.cart.medicines.append(medicine)
-        self.load_cart()
+        try:
+            self.cart_service.add_medicine(medicine)
+            if medicine not in self.cart.medicines:
+                self.cart.medicines.append(medicine)
+            self.load_cart()
+        except ValueError:
+            self.show_error('Лекарства нет в наличии')
 
     def remove_from_cart(self):
         medicine_name = self.remove_combo.currentText()

@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication
 from sqlalchemy.engine import create_engine
 
 from src.settings import DSN
-from src.app.main_window import MainWindow
+from src.frontend.main_window import MainWindow
 
 
 if __name__ == '__main__':

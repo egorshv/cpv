@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QVBoxLayout, QLabel
 
-from src.base.dao import DAO
-from src.base.tab import BaseTab
-from src.manufacturer.models import Manufacturer
+from src.backend.dao import DAO
+from src.frontend.base_tab import BaseTab
+from src.backend.models.manufacturer import Manufacturer
 
 class ManufacturerTab(BaseTab):
     def __init__(self, engine):

@@ -1,4 +1,4 @@
-from src.base.dao import DAO
+from src.backend.dao import DAO
 
 
 class BaseFacade:

@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Mapped, relationship
 
-from src.base.models import Base
+import src.backend.models.base
 
 
-class MedicineCategory(Base):
+class MedicineCategory(src.backend.models.base.Base):
     __tablename__ = 'medicine_category'
 
     name: Mapped[str]

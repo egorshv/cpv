@@ -1,8 +1,8 @@
 from sqlalchemy.engine import create_engine
 
-from src.base.dao import DAO
-from src.category.models import MedicineCategory
-from src.category.facade import MedicineCategoryFacade
+from src.backend.dao import DAO
+from src.backend.models.category import MedicineCategory
+from src.backend.facades.category import MedicineCategoryFacade
 from src.settings import DSN
 
 

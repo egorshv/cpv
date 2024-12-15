@@ -1,5 +1,5 @@
-from src.base.dao import DAO
-from src.base.facade import BaseFacade
+from src.backend.dao import DAO
+from src.backend.facades.base import BaseFacade
 
 
 class MedicineCategoryFacade(BaseFacade):

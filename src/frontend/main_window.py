@@ -1,9 +1,9 @@
 from PyQt5.QtWidgets import QMainWindow, QTabWidget
-from src.medicine.tab import MedicineTab
-from src.cart.tab import CartTab
-from src.category.tab import MedicineCategoryTab
-from src.manufacturer.tab import ManufacturerTab
-from src.buyer.tab import BuyerTab
+from src.frontend.medicine_tab import MedicineTab
+from src.frontend.cart_tab import CartTab
+from src.frontend.category_tab import MedicineCategoryTab
+from src.frontend.manufacturer_tab import ManufacturerTab
+from src.frontend.buyer_tab import BuyerTab
 
 class MainWindow(QMainWindow):
     def __init__(self, engine):

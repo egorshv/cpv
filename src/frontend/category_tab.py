@@ -1,9 +1,9 @@
 from PyQt5.QtWidgets import QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QVBoxLayout, QLabel
 
-from src.base.dao import DAO
-from src.base.tab import BaseTab
-from src.category.models import MedicineCategory
-from src.medicine.models import Medicine
+from src.backend.dao import DAO
+from src.frontend.base_tab import BaseTab
+from src.backend.models.category import MedicineCategory
+from src.backend.models.medicine import Medicine
 
 
 class MedicineCategoryTab(BaseTab):

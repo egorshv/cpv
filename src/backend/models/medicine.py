@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey
 
-from src.base.models import Base
-from src.category.models import MedicineCategory
-from src.manufacturer.models import Manufacturer
-from src.cart.models import Cart
+from src.backend.models.base import Base
+from src.backend.models.category import MedicineCategory
+from src.backend.models.manufacturer import Manufacturer
+from src.backend.models.cart import Cart
 
 
 class Medicine(Base):

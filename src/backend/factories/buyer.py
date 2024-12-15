@@ -1,8 +1,8 @@
 from sqlalchemy.engine import create_engine
 
-from src.base.dao import DAO
-from src.buyer.models import Buyer
-from src.buyer.facade import BuyerFacade
+from src.backend.dao import DAO
+from src.backend.models.buyer import Buyer
+from src.backend.facades.buyer import BuyerFacade
 from src.settings import DSN
 
 

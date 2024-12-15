@@ -1,4 +1,4 @@
-from src.base.facade import BaseFacade
+from src.backend.facades.base import BaseFacade
 
 
 class MedicineFacade(BaseFacade):
